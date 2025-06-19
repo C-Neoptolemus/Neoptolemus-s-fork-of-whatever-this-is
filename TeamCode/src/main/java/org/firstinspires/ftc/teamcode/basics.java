@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp(name="basics", group="Linear OpMode")
@@ -15,8 +12,13 @@ private DcMotor fl = null;
 private DcMotor bl = null;
 private DcMotor fr = null;
 private DcMotor br = null;
-private double leftJoyStickY;
-    private double rightJoyStickY;
+private double ly;
+    private double rx;
+    private double lx;
+    double powerFL;
+    double powerFR;
+    double powerBR;
+    double powerBL;
     @Override
     public void runOpMode() {
         fl = hardwareMap.get(DcMotor.class, "fl");
@@ -26,11 +28,21 @@ private double leftJoyStickY;
         fr.setDirection(DcMotorSimple.Direction.REVERSE);
         br.setDirection(DcMotorSimple.Direction.REVERSE);
         waitForStart();
+
         while(opModeIsActive()){
-            fl.setPower(gamepad1.left_stick_y);
-            bl.setPower(gamepad1.left_stick_y);
-            fr.setPower(gamepad1.right_stick_y);
-            br.setPower(gamepad1.right_stick_y);
+            ly = gamepad1.left_stick_y;
+            rx = gamepad1.right_stick_x;
+            lx = gamepad1.left_stick_x;
+            powerFL=ly - rx - lx;
+            powerFR=ly - rx + lx;
+            powerBR=ly + rx - lx;
+            powerBL=ly + rx + lx;
+            fl.setPower(powerFL);
+            bl.setPower(powerBL);
+            fr.setPower(powerFR);
+            br.setPower(powerBR);
+
+            //br.setPower(gamepad1.right_stick_y);
             telemetry.addData("your code", gamepad1.left_stick_y);
             telemetry.update();
         }
