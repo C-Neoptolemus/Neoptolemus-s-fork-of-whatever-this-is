@@ -49,6 +49,8 @@ public class basics extends LinearOpMode {
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        Claw claw = new Claw(hardwareMap, 0);
+
         waitForStart();
 
         while(opModeIsActive()){
@@ -79,6 +81,7 @@ public class basics extends LinearOpMode {
 
             //resetting the speed variable
             speed = 1;
+
         }
     }
 }
