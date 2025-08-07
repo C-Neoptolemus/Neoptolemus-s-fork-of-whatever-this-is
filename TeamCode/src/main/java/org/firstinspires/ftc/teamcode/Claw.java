@@ -3,26 +3,37 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 public class Claw {
     private Servo right = null;
     private Servo left = null;
-    private double openDifference;
+    private final double OPEN_DIFFERENCE = 0.0600;
     private HardwareMap hardwareMap;
-    private double rightClosedServoPos;
-    private double leftClosedServoPos;
-    public Claw(HardwareMap hardwareMap, double difference){
-    openDifference = difference;
+    private Telemetry telemetry;
+    private final double LEFT_CLOSED_SERVO_POS = 0.5578;
+    private final double RIGHT_CLOSED_SERVO_POS = 0.3296;
+    public Claw(HardwareMap hardwareMap, Telemetry telemetry){
     this.hardwareMap = hardwareMap;
+    this.telemetry = telemetry;
     right = hardwareMap.get(Servo.class, "right");
     left = hardwareMap.get(Servo.class,"left");
-    left.setPosition(0);
+    Open();
     }
     public void Open(){
-        left.setPosition(0);
-        right.setPosition(0);
+        left.setPosition(LEFT_CLOSED_SERVO_POS + OPEN_DIFFERENCE);
+        right.setPosition(RIGHT_CLOSED_SERVO_POS - OPEN_DIFFERENCE);
     }
     public void Close(){
-        left.setPosition(leftClosedServoPos);
-        right.setPosition(rightClosedServoPos);
+        left.setPosition(LEFT_CLOSED_SERVO_POS);
+        right.setPosition(RIGHT_CLOSED_SERVO_POS);
+    }
+    public void RightManual(double position){
+        right.setPosition(position);
+        telemetry.addData("Right Degrees", position);
+    }
+    public void LeftManual(double position){
+        left.setPosition(position);
+        telemetry.addData("Left Degrees", position);
     }
 }

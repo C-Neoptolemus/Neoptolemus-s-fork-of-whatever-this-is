@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 /*
 This is the op mode I made so that I can take advantage of the robot oriented drive. I also made it a slow mo button.
  */
@@ -30,10 +32,11 @@ public class basics extends LinearOpMode {
 
     //this is the speed multiplier to slow down to robot for precision
     private double speed;
-
+    LinearSlide linearSlide = null;
     @Override
     public void runOpMode() {
         //giving the variables of the motors control over the actual motors
+
         fl = hardwareMap.get(DcMotor.class, "fl");
         bl = hardwareMap.get(DcMotor.class, "bl");
         fr = hardwareMap.get(DcMotor.class, "fr");
@@ -43,17 +46,18 @@ public class basics extends LinearOpMode {
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        //useing a brake system where when you aren't applying power to a motor, it will take as much as possible and bring it into the battery (works as a brake as well)
+        //using a brake system where when you aren't applying power to a motor, it will take as much as possible and bring it into the battery (works as a brake as well)
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        Claw claw = new Claw(hardwareMap, 0);
+        Claw claw = new Claw(hardwareMap, telemetry);
+        linearSlide = new LinearSlide(hardwareMap, telemetry);
 
         waitForStart();
 
-        while(opModeIsActive()){
+        while (opModeIsActive()) {
 
             //slow modes
             if (gamepad1.right_trigger > 0.4){
@@ -81,7 +85,13 @@ public class basics extends LinearOpMode {
 
             //resetting the speed variable
             speed = 1;
-
+            telemetry.addData("Height", linearSlide.GetSlideHeight());
+            telemetry.update();
+            if (gamepad2.a) {
+                claw.Close();
+            }else {
+                claw.Open();
+            }
         }
     }
 }
