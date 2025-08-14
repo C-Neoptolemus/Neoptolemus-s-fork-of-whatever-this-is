@@ -85,13 +85,16 @@ public class basics extends LinearOpMode {
 
             //resetting the speed variable
             speed = 1;
-            telemetry.addData("Height", linearSlide.GetSlideHeight());
-            telemetry.update();
+
             if (gamepad2.a) {
                 claw.Close();
             }else {
                 claw.Open();
             }
+
+
+            telemetry.addData("Heightttt", linearSlide.GetSlideHeight());
+            telemetry.update();
         }
     }
 }
