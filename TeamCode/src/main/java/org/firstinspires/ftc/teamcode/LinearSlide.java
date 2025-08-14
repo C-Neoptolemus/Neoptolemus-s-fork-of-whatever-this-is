@@ -10,6 +10,7 @@ public class LinearSlide {
     private HardwareMap hardwareMap;
     private Telemetry telemetry;
     private DcMotor linSlide = null;
+    private boolean power = true;
 
     public LinearSlide(HardwareMap hardwareMap, Telemetry telemetry){
         this.hardwareMap = hardwareMap;
@@ -19,11 +20,20 @@ public class LinearSlide {
         linSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linSlide.setPower(0);
+        linSlide.setPower(1);
     }
 
     public void SetSlideHeight(double inch){
         linSlide.setTargetPosition(InchesToTicks(inch));
+    }
+    public void TurnMotorOnOrOff{
+        if (power){
+            linSlide.setPower(0);
+            power = false;
+        }else{
+            linSlide.setPower(1);
+            power = true;
+        }
     }
     public double GetSlideHeight(){
          return TicksToInches(linSlide.getCurrentPosition());
