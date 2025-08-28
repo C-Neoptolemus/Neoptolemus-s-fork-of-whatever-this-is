@@ -92,9 +92,17 @@ public class basics extends LinearOpMode {
                 claw.Open();
             }
 
-
             telemetry.addData("Heightttt", linearSlide.GetSlideHeight());
             telemetry.update();
+            if (gamepad2.y){
+                linearSlide.SetSlideHeight(23);
+            }
+            if (gamepad2.x) {
+                linearSlide.SetSlideHeight(0.1);
+            }
+            if (gamepad2.a){
+                linearSlide.TurnMotorOnOrOff();
+            }
         }
     }
 }
