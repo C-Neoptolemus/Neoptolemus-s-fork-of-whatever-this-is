@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+// This is the class for the claw. It has methods to open and close the claw, as well as manual control for each servo.
 public class Claw {
     private Servo right = null;
     private Servo left = null;
